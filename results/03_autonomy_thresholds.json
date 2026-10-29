@@ -1,0 +1,225 @@
+{
+  "seeds": 20,
+  "models": {
+    "gaussian_nb": {
+      "accuracy": 0.8380555555555557,
+      "temperature": 148.41249272158956,
+      "ece_raw": 0.15306434972859612,
+      "ece_temperature": 0.5411045421018224,
+      "ece_cal": 0.03905257561637217,
+      "mean_conf_raw": 0.9886080477025487,
+      "mean_conf_cal": 0.8362985080587995,
+      "profiles": {
+        "approve a 1,000 EUR refund": {
+          "min_confidence": 0.9852216748768473,
+          "always act": {
+            "cost_per_decision": 161.94444444444449,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.16194444444444445,
+            "errors_per_1000": 161.94444444444449
+          },
+          "always escalate": {
+            "cost_per_decision": 12.570833333333333,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          },
+          "fixed 90% (raw)": {
+            "cost_per_decision": 142.85648148148147,
+            "autonomy_rate": 0.9630555555555557,
+            "error_rate_when_acting": 0.14812022451273057,
+            "errors_per_1000": 142.59259259259258
+          },
+          "cost threshold (raw)": {
+            "cost_per_decision": 128.18796296296298,
+            "autonomy_rate": 0.9322222222222223,
+            "error_rate_when_acting": 0.13706401073932645,
+            "errors_per_1000": 127.68518518518519
+          },
+          "cost threshold (calibrated)": {
+            "cost_per_decision": 12.570833333333333,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          }
+        },
+        "update a customer address": {
+          "min_confidence": 0.8695652173913043,
+          "always act": {
+            "cost_per_decision": 16.194444444444446,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.16194444444444445,
+            "errors_per_1000": 161.94444444444449
+          },
+          "always escalate": {
+            "cost_per_decision": 12.570833333333333,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          },
+          "fixed 90% (raw)": {
+            "cost_per_decision": 14.523148148148149,
+            "autonomy_rate": 0.9630555555555557,
+            "error_rate_when_acting": 0.14812022451273057,
+            "errors_per_1000": 142.59259259259258
+          },
+          "cost threshold (raw)": {
+            "cost_per_decision": 14.76064814814815,
+            "autonomy_rate": 0.9685185185185186,
+            "error_rate_when_acting": 0.15014405609438475,
+            "errors_per_1000": 145.37037037037035
+          },
+          "cost threshold (calibrated)": {
+            "cost_per_decision": 7.224537037037038,
+            "autonomy_rate": 0.625462962962963,
+            "error_rate_when_acting": 0.05538609323720449,
+            "errors_per_1000": 35.092592592592595
+          }
+        },
+        "route an e-mail": {
+          "min_confidence": 0.11764705882352944,
+          "always act": {
+            "cost_per_decision": 0.3238888888888889,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.16194444444444445,
+            "errors_per_1000": 161.94444444444449
+          },
+          "always escalate": {
+            "cost_per_decision": 12.570833333333333,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          },
+          "fixed 90% (raw)": {
+            "cost_per_decision": 0.5490740740740739,
+            "autonomy_rate": 0.9630555555555557,
+            "error_rate_when_acting": 0.14812022451273057,
+            "errors_per_1000": 142.59259259259258
+          },
+          "cost threshold (raw)": {
+            "cost_per_decision": 0.3238888888888889,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.16194444444444445,
+            "errors_per_1000": 161.94444444444449
+          },
+          "cost threshold (calibrated)": {
+            "cost_per_decision": 0.34601851851851856,
+            "autonomy_rate": 0.9961111111111108,
+            "error_rate_when_acting": 0.16042851444497552,
+            "errors_per_1000": 159.8148148148148
+          }
+        }
+      }
+    },
+    "mlp": {
+      "accuracy": 0.9707407407407409,
+      "temperature": 0.9885944639684435,
+      "ece_raw": 0.016568463616057592,
+      "ece_temperature": 0.017884865840733802,
+      "ece_cal": 0.019197111222726805,
+      "mean_conf_raw": 0.9668727440386842,
+      "mean_conf_cal": 0.969601860159868,
+      "profiles": {
+        "approve a 1,000 EUR refund": {
+          "min_confidence": 0.9852216748768473,
+          "always act": {
+            "cost_per_decision": 29.25925925925926,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.029259259259259263,
+            "errors_per_1000": 29.25925925925926
+          },
+          "always escalate": {
+            "cost_per_decision": 14.561111111111112,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          },
+          "fixed 90% (raw)": {
+            "cost_per_decision": 7.4125,
+            "autonomy_rate": 0.9088888888888891,
+            "error_rate_when_acting": 0.007019312119591935,
+            "errors_per_1000": 6.388888888888889
+          },
+          "cost threshold (raw)": {
+            "cost_per_decision": 5.068518518518519,
+            "autonomy_rate": 0.7769444444444445,
+            "error_rate_when_acting": 0.0027301406398826055,
+            "errors_per_1000": 2.12962962962963
+          },
+          "cost threshold (calibrated)": {
+            "cost_per_decision": 6.2481481481481485,
+            "autonomy_rate": 0.8236111111111111,
+            "error_rate_when_acting": 0.004536502318227728,
+            "errors_per_1000": 3.981481481481482
+          }
+        },
+        "update a customer address": {
+          "min_confidence": 0.8695652173913043,
+          "always act": {
+            "cost_per_decision": 2.925925925925926,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.029259259259259263,
+            "errors_per_1000": 29.25925925925926
+          },
+          "always escalate": {
+            "cost_per_decision": 14.561111111111112,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          },
+          "fixed 90% (raw)": {
+            "cost_per_decision": 1.6625,
+            "autonomy_rate": 0.9088888888888891,
+            "error_rate_when_acting": 0.007019312119591935,
+            "errors_per_1000": 6.388888888888889
+          },
+          "cost threshold (raw)": {
+            "cost_per_decision": 1.6949074074074075,
+            "autonomy_rate": 0.9230555555555556,
+            "error_rate_when_acting": 0.00920933336972787,
+            "errors_per_1000": 8.518518518518519
+          },
+          "cost threshold (calibrated)": {
+            "cost_per_decision": 1.716203703703704,
+            "autonomy_rate": 0.9422222222222223,
+            "error_rate_when_acting": 0.011830634388319291,
+            "errors_per_1000": 11.203703703703702
+          }
+        },
+        "route an e-mail": {
+          "min_confidence": 0.11764705882352944,
+          "always act": {
+            "cost_per_decision": 0.058518518518518525,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.029259259259259263,
+            "errors_per_1000": 29.25925925925926
+          },
+          "always escalate": {
+            "cost_per_decision": 14.561111111111112,
+            "autonomy_rate": 0.0,
+            "error_rate_when_acting": 0.0,
+            "errors_per_1000": 0.0
+          },
+          "fixed 90% (raw)": {
+            "cost_per_decision": 1.036388888888889,
+            "autonomy_rate": 0.9088888888888891,
+            "error_rate_when_acting": 0.007019312119591935,
+            "errors_per_1000": 6.388888888888889
+          },
+          "cost threshold (raw)": {
+            "cost_per_decision": 0.058518518518518525,
+            "autonomy_rate": 1.0,
+            "error_rate_when_acting": 0.029259259259259263,
+            "errors_per_1000": 29.25925925925926
+          },
+          "cost threshold (calibrated)": {
+            "cost_per_decision": 0.07722222222222222,
+            "autonomy_rate": 0.9967592592592591,
+            "error_rate_when_acting": 0.02758691366426329,
+            "errors_per_1000": 27.5
+          }
+        }
+      }
+    }
+  }
+}
