@@ -40,3 +40,16 @@ def test_guards_cut_the_tail():
     a = tail_metrics(simulate(cfg, 20_000, 0).cost)
     b = tail_metrics(simulate(with_guards(cfg, max_steps=12, loop_window=2), 20_000, 0).cost)
     assert b["mean"] < a["mean"] and b["cvar95"] < a["cvar95"]
+
+
+def test_case_study_ordering():
+    import importlib.util
+    from pathlib import Path
+    p = Path(__file__).resolve().parents[1] / "case_study" / "contact_center.py"
+    spec = importlib.util.spec_from_file_location("cc", p)
+    cc = importlib.util.module_from_spec(spec)
+    import sys
+    sys.modules["cc"] = cc
+    spec.loader.exec_module(cc)
+    s0, s3, s4 = (cc.run(k)["total"] for k in ("S0", "S3", "S4"))
+    assert s4 < s0 < s3 * 1.2 and s4 < s3

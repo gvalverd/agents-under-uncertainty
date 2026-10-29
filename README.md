@@ -1,6 +1,6 @@
 # agents-under-uncertainty
 
-Reproducible experiments on two questions every team running LLM agents in production ends up asking:
+Reproducible experiments, and one end-to-end case study, on two questions every team running LLM agents in production ends up asking:
 
 1. **What does an agent really cost?** The mean cost per query hides almost everything that matters: heavy tails, loops, and the human team that absorbs the escalations.
 2. **When should an agent act on its own, and when should it escalate?** A fixed "act if confidence > 90%" rule ignores the cost of each error and assumes the confidence is calibrated.
@@ -9,7 +9,7 @@ Everything runs offline in about 20 seconds. The optional third study measures t
 
 ```bash
 pip install -r requirements.txt
-make all     # runs studies 1, 1b and 2, writes results/*.json and results/figures/*.png
+make all     # runs studies 1, 1b, 2 and the case study; writes results/ and results/figures/
 make test
 ```
 
@@ -109,6 +109,49 @@ python experiments/04_llm_verbalized_confidence.py analyze
 Any OpenAI-compatible endpoint also works (`--provider openai`, with `OPENAI_BASE_URL`).
 
 ---
+
+## Case study: the customer-service agent of an electricity retailer
+
+`case_study/contact_center.py` puts everything together in one end-to-end case. The data is simulated, but the setting is a real one: the customer-service agent of a fictional electricity retailer handles **100,000 requests a month** across six intents. Every figure is a stated, editable assumption (`INTENTS`, `ECON`). Prices and costs are **hypothetical**.
+
+| intent | share | cost of a wrong autonomous action | agent accuracy |
+|---|---|---|---|
+| billing question | 40% | 2 € | 97% |
+| address / contract change | 20% | 15 € | 95% |
+| outage report | 10% | 5 € | 95% |
+| meter-reading dispute | 15% | 40 € | 88% |
+| refund / compensation | 10% | 120 € | 90% |
+| formal complaint | 5% | 60 € | 80% |
+
+An escalation costs 6 € at the margin. Humans cost 28 €/hour fully loaded and take 6 minutes per case. Customers who wait complain more often: 2% plus 1.2 points per minute waited, at 60 € per complaint. The agent's stated confidence behaves like an LLM's: it is squeezed between 80% and 99%, comes in round numbers and is only weakly related to how likely it is to be right.
+
+We start from a **typical deployment** and add the practices of this repository one at a time:
+
+| scenario | monthly cost | vs S0 | autonomy | wrong actions / 1,000 | team | p95 wait |
+|---|---|---|---|---|---|---|
+| S0 typical: no guard, act if confidence ≥ 90%, staff on the mean | 293,162 € | — | 97% | 61.8 | 2 | 21.3 min |
+| S1 + loop detector and step cap | 284,721 € | −3% | 97% | 61.8 | 2 | 21.0 min |
+| S2 + threshold per intent from the cost of errors | 250,521 € | −15% | 93% | 54.2 | 4 | 26.9 min |
+| S3 + calibration from a shadow-mode pilot (team still on the mean) | 300,893 € | **+3%** | 88% | 45.2 | 6 | **47.6 min** |
+| S4 + team staffed on the p90 hourly rate | 216,627 € | **−26%** | 88% | 45.2 | 8 | 11.2 min |
+| S5 + better model and context (hypothetical 150k € project) | 180,137 € | **−39%** | 96% | 44.2 | 3 | 11.4 min |
+
+![case cost](results/figures/05_case_cost_waterfall.png)
+![case kpis](results/figures/05_case_kpis.png)
+
+What the case shows:
+
+1. **Tokens are not where the money is.** In the typical deployment, tokens are 3.7% of the monthly cost (10.8k €). Wrong autonomous actions are 87%. The loop detector cuts tokens by 76% and the total by only 3%. It is still worth having, because it removes the tail risk (study 1), but it is not the business case.
+2. **The threshold has to come from the cost of each error.** A refund needs 95% calibrated confidence; a billing question needs 25%. The same agent should answer almost every billing question and escalate a formal complaint unless it is very sure:
+
+   ![autonomy per intent](results/figures/05_case_autonomy_per_intent.png)
+
+3. **One good practice without the others can make things worse.** Calibration alone (S3) cuts wrong actions by half, but it escalates 4 times more cases. If the team is still sized on the daily mean, the p95 wait reaches 48 minutes, complaints jump from 207 to 2,179 a month and the total is **3% worse** than doing nothing. Staffing on the p90 hourly rate (S4) turns the same calibration into a 26% saving.
+4. **"Better model or more tokens" is the wrong question.** The improved model in S5 uses 20% more tokens (+526 €/month). It saves 36,489 €/month against S4, because it can be trusted with more refunds and complaints, so the team shrinks from 8 to 3 people. With a hypothetical 150k € project, payback is **4.1 months**. Its cost of wrong actions goes *up* (123k → 140k €), and that is the right call: the optimal policy now accepts a few more cheap risks to avoid many expensive escalations.
+
+```bash
+make case    # runs the case study and writes results/case_study/results.json and figures 05_*
+```
 
 ## Practical checklist
 
